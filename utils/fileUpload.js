@@ -11,7 +11,7 @@ const storage = multer.diskStorage({
   },
   filename: function (req, file, cb) {
     let extname = path.extname(file.originalname);
-    let basename = path.basename(file.originalname.extname);
+    let basename = path.basename(file.originalname, extname);
     const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
     let filename = basename + "-" + uniqueSuffix + extname;
     cb(null, filename);
@@ -25,8 +25,9 @@ const fileFilter = (req, file, cb) => {
     )
   ) {
     cb(new error("Invalid file type"), false);
+  } else {
+    cb(null, true);
   }
-  cb(null, true);
 };
 
 const upload = multer({

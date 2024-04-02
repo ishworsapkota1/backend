@@ -10,7 +10,7 @@ exports.addProduct = async (req, res) => {
     price: req.body.price,
     description: req.body.description,
     category: req.body.category,
-    count_in_stock: req.body.count_in_stock, // kasari cout in stock declare
+    count_in_stock: req.body.count_in_stock, // kasari cout in stock
     product_image: req.file?.path,
   });
   if (!product) {
@@ -51,7 +51,12 @@ exports.updateProduct = async (req, res) => {
   let product = await ProductModel.findByIdAndUpdate(
     req.params.id,
     {
-      category_name: req.body.category_name,
+      title: req.body.title,
+      price: req.body.price,
+      description: req.body.description,
+      category: req.body.category,
+      count_in_stock: req.body.count_in_stock, // kasari cout in stock declare
+      product_image: req.file?.path,
     },
     { new: true }
   );
@@ -64,7 +69,7 @@ exports.updateProduct = async (req, res) => {
 exports.deleteProduct = async (req, res) => {
   let product = await ProductModel.findByIdAndDelete(req.params.id);
   if (!product) {
-    return res.status(404).send({ error: "Something went wrong" });
+    return res.status(404).send({ error: "product not found " });
   }
-  res.send(product);
+  res.send({ message: "Product deleted" });
 };

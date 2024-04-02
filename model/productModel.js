@@ -27,6 +27,10 @@ const productSchema = new mongoose.Schema(
       type: ObjectId,
       ref: "categoryModel",
     },
+    count_in_stock: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

@@ -11,6 +11,7 @@ const TESTROUTE = require("./routes/testRoute");
 // import routes
 const CategoryRoutes = require("./routes/categoryRoutes");
 const ProductRoute = require("./routes/productRouter");
+const UserRoute = require("./routes/userRoute");
 
 const app = express();
 const port = process.env.PORT || 7000;
@@ -23,6 +24,8 @@ app.use(morgan("dev"));
 // app.use("/api", TESTROUTE);
 app.use(CategoryRoutes);
 app.use("/api", ProductRoute);
+app.use("/api", UserRoute);
+
 
 // app.use("/public/uploads");
 
