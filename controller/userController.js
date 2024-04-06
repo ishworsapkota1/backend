@@ -7,6 +7,7 @@ const sendEmail = require("../utils/emailSender");
 const tokenModel = require("../model/tokenModel");
 const userModel = require("../model/userModel");
 const { expressjwt } = require("express-jwt");
+const { cookie } = require("express-validator");
 // register
 exports.register = async (req, res) => {
   let {
@@ -219,11 +220,19 @@ exports.login = async (req, res) => {
     return res.status(400).json({ error: "User not verified,verify first" });
   }
   // generate token
-  let token = jwt.sign;
+  let { username, role, _id } = user;
+  let token = jwt.sign({ username, role, _id }, process.env.JWT_SECRET, {
+    expiresIn: 86400,
+  });
 
   // send data to frontend
+  res.cookie("myCookie", token, { expiresIn: 86400 });
+  res.send({ token, user: { _id, username, role, email } });
 };
-exports.logout = async (req, res) => {};
+exports.logout = async (req, res) => {
+  res.clearCookie("myCookie");
+  res.send({ message: "Signed out successfully" });
+};
 
 // userlist
 exports.getUserslist = async (req, res) => {
