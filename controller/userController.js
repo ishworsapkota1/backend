@@ -119,7 +119,7 @@ exports.verifyUser = async (req, res) => {
 // resend verification
 exports.resendVerification = async (req, res) => {
   // find if email is registered or not
-  let user = userModel.findOne({ email: req.body.email });
+  let user = await userModel.findOne({ email: req.body.email });
   if (!user) {
     return res.status(400).json({ error: "Email not registered" });
   }
@@ -189,7 +189,7 @@ exports.resetPassword = async (req, res) => {
       .json({ error: "Invalid token or token may have expired." });
   }
   // find user
-  let user = await userModel.findById(token.user);
+  let user = await userModel.findById(token.user); //toke.user ko exact logic
   if (!user) {
     return res.status(400).json({ error: "Something went wrong" });
   }
@@ -229,6 +229,7 @@ exports.login = async (req, res) => {
   res.cookie("myCookie", token, { expiresIn: 86400 });
   res.send({ token, user: { _id, username, role, email } });
 };
+// logout
 exports.logout = async (req, res) => {
   res.clearCookie("myCookie");
   res.send({ message: "Signed out successfully" });
@@ -272,7 +273,7 @@ exports.checkAdmin = (req, res, next) =>
   expressjwt({
     algorithms: ["HS256"],
     secret: process.env.JWT_SECRET,
-    userProperty: auth,
+    userProperty: "auth",
   })(req, res, (error) => {
     if (error) {
       return res.status(400).json({ error, error });

@@ -11,7 +11,7 @@ const { categoryCheck, validate } = require("../validation");
 const router = require("express").Router();
 
 // endpoints
-router.post("/addcategory", checkAdmin,categoryCheck,validate ,addCategory);
+router.post("/addcategory", categoryCheck,validate ,addCategory);
 router.get("/category/:id", getCategoryDetails);
 router.get("/getallcategories", getAllCategories);
 router.patch("/updatecategory/:id", checkAdmin, updateCategory);

@@ -17,7 +17,7 @@ exports.productCheck = [
   check("title", "Product title is required")
     .notEmpty()
     .isLength({ min: 3 })
-    .withMessage("product must be 3 characters long"),
+    .withMessage("Product name must be three characters"),
 
   check("price", "Price is required")
     .notEmpty()
@@ -39,7 +39,10 @@ exports.userCheck = [
   check("username", "Username is required")
     .notEmpty()
     .isLength({ min: 3 })
-    .withMessage("username must be at least 3 characters"),
+    .withMessage("username must be at least 3 characters")
+    .not()
+    .isIn(["admin", "Admin", "test"])
+    .withMessage("This username is not allowed"),
   check("email", "email is required")
     .isEmail()
     .withMessage("Email format incorrect"),
